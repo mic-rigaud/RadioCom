@@ -1,0 +1,8 @@
+http://easytp.cnam.fr/leruyet/Cours/presentation_ofdm.pdf
+
+diapo 24 25 26 27    aide pour la question 3a, il faut s'en inspirer pour comprendre les interférences intersymbole et entre symbole
+
+diapo 29 principe de l'égalisation : comment retrouver la réponse fréquentielle du canal grâce aux pilotes : insertion de valeurs constantes à l'entrée de l'IFFT de transmission
+diapo 30 estimation du coefficient complexe d'un canal grâce à la reception du pilote
+
+///////////////////////////////////////////////////////
