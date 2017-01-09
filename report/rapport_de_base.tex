@@ -18,7 +18,7 @@
 %\usepackage{wrapfig}			% permet d avoir des image avec texte coulant a cote
 %\usepackage{fancyhdr}			% permet d inserer des choses en haut et en bas de chaque page
 \usepackage{microtype}			% permet d ameliorer l apparence du texte
-%\usepackage[explicit]{titlesec}	% permet de modifier les titres
+\usepackage[explicit]{titlesec}	% permet de modifier les titres
 \usepackage{graphicx}			% permet d utiliser les graphiques
 \graphicspath{{./images/}}		% to say where are image
 %\usepackage{eso-pic} 			% to put figure in the background
@@ -33,7 +33,7 @@
 %\usepackage{fancybox}			% permet de realiser les cadres
 \usepackage{titletoc}			% permet de modifier les titres
 %\usepackage{caption}
-\usepackage[a4paper, top=2cm, bottom=2cm]{geometry}
+%\usepackage[a4paper, top=2cm, bottom=2cm]{geometry}
 \usepackage{frbib}                      %permet d avoir une biblio francaise
 \usepackage[babel=true]{csquotes}
 
@@ -41,8 +41,8 @@
 \usepackage{graphicx}
 \RequirePackage{pageGardeEnsta}	% permet d avoir la page de garde ensta
 
-\setcounter{secnumdepth}{1}		% permet d'augmenter la numerotation
-%\setcounter{tocdepth}{6}		% permet d'augmenter la numerotation
+%\setcounter{secnumdepth}{2}		% permet d'augmenter la numerotation
+%\setcounter{tocdepth}{2}		% permet d'augmenter la numerotation
 
 %%%%%%%%%%%%%%%%%%  DEFINITION DES BOITES
 \newcounter{rem}[chapter]
@@ -53,12 +53,7 @@
 \newcounter{th}[chapter]
 
 \newcommand{\theoreme}[2]{\noindent\fcolorbox{FireBrick}{white}{\stepcounter{th}
-\parbox{\textwidth}{\textbf{\textcolor{FireBrick}{Théorème~\thechapter.\theth~:}}{\hfill
-    \textit{#1}}\\#2}}}
-
-\newcommand{\definition}[2]{\noindent{\stepcounter{th}
-    \parbox{\textwidth}{\textbf{\textcolor{OliveDrab}{Définition~\thechapter.\theth~:}}{~~\textit{#1}}~\setlength{\parindent}{15pt}\par#2\par~\par}}}
-
+\parbox{\textwidth}{\textbf{\textcolor{FireBrick}{Théorème~\thechapter.\theth~:}}{\hfill \textit{#1}}\\#2}}}
 
 \newcommand{\attention}[1]{\noindent\fcolorbox{white}{white}{\parbox{\textwidth}{\textcolor{FireBrick}{
 \textbf{Attention !}}\\\textit{#1}\\}}}
@@ -139,9 +134,8 @@ OFDM avec intervalle de garde entre symboles. Puis, pour aller plus loin, nous
 Ce dernier consiste à mettre en place un système permettant de se passer de
 l’intervalle de garde, et ainsi, de ne pas perdre de débit à cause des temps
 d’attentes entre symboles.
-
 \section*{Problèmes généraux des transmissions de données sans-fils}
-ous allons présenter ici les deux principaux problèmes rencontrés lors du
+Nous allons présenter ici les deux principaux problèmes rencontrés lors du
 passage du signal transmis dans le canal de propagation. Ceux-ci sont liés à la
 réponse fréquentielle du canal de propagation, mais ont des phénomènes physiques
 différents.
@@ -163,16 +157,15 @@ dans le temps et des variations de phases par rapport au signal reçu en trajet 
   \label{fig:tempsFreq}
 \end{figure}
 
-Comme nous pouvons le voir, les signaux OFDM résultent d’une modulation
-multi-porteuses. C’est-à-dire que nous répartissons l’information sur une bande
-de fréquence, autour de plusieurs porteuses de fréquences centrales également
-réparties. Puis, à chaque sous-fréquences porteuses, on envoie des symboles
-répartis dans le temps espacé par des intervalles de garde.
+Comme nous pouvons le voir, les signaux OFDM résultent d’une modulation multi-porteuses. C’est-à-dire que nous répartissons l’information sur une bande de fréquence, autour de plusieurs porteuses de fréquences centrales également réparties. Puis, à chaque sous-fréquences porteuses, on envoie des symboles répartis dans le temps espacé par des intervalles de garde.
+
+
+
+\paragraph{}
 
 
 \newpage
 %%%%%%%%%%%%%%%%%%%%%%%%
-
 \input{Partie/Question1}
 \input{Partie/Question2}
 \input{Partie/Question3a}
