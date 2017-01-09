@@ -1,0 +1,29 @@
+\chapter{Preambule}
+\section{Problèmes généraux des transmissions de données sans-fils}
+Nous allons présenter ici les deux principaux problèmes rencontrés lors du
+passage du signal transmis dans le canal de propagation. Ceux-ci sont liés à la
+réponse fréquentielle du canal de propagation, mais ont des phénomènes physiques
+différents.
+
+Le premier problème est l’interférence entre symbole. Cela est dû à la
+dispersion des symboles dans le temps lorsque nous en envoyons plusieurs à la suite.
+
+L’autre problème est l’affaiblissement par multi-trajets, aussi appelé Fading.
+Cela arrive lorsque le même signal à l’émissions parcours des trajets différents
+avec réflexions et diffractions, puis arrive sur le récepteur avec un décalage
+dans le temps et des variations de phases par rapport au signal reçu en trajet direct.
+
+\section{Les signaux OFDM}
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\textwidth]{Frequence_time.png}
+  \caption[Temps-Frequence]{Temps-Frequence: representation d un signal OFDM}
+  \label{fig:tempsFreq}
+\end{figure}
+
+Comme nous pouvons le voir, les signaux OFDM résultent d’une modulation multi-porteuses. C’est-à-dire que nous répartissons l’information sur une bande de fréquence, autour de plusieurs porteuses de fréquences centrales également réparties. Puis, à chaque sous-fréquences porteuses, on envoie des symboles répartis dans le temps espacé par des intervalles de garde.
+
+
+
+\paragraph{}
