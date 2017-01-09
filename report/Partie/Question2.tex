@@ -5,14 +5,24 @@
 Avant de répondre à cette question, nous détaillerons ici le principe d'un
 préfixe cyclique et nous expliciterons sa construction. Il est à noter dans un
 premier temps qu'un préfixe cyclique est un intervalle de garde
-particulier\footnote{il existe deux types d'intervalle de garde: par ajout d'un
-  signal nul ou par préfixe cyclique.}.
+particulier. ~\\
+
+\definition{Intervalle de garde}{Un intervalle de garde est un signal de durée
+  $\Delta$ que l'on place avant chaque symboles que nous souhaitons pour réduire
+  l'interférence inter-symboles (voir section \ref{ISI}). Deux types
+  d'intervalles de garde sont couramment utilisés : le préfixe cyclique et le
+  bourrage de zéros.}
+
+Le préfixe cyclique se place donc avant le symbole que l'on souhaite
+transmettre. De plus le préfixe cyclique se construit comme la répétition des
+derniers échantillons du bloc qu'il précède.
+
 
 
 \section{Rôle du préfixe cyclique}
 
 \subsection{Interférence inter-symboles (ISI)}
-
+\label{ISI}
 
 \definition{Interférence inter-symboles}{\og En télécommunications, une
   interférence inter-symbole est une forme de distorsion d'un signal qui a pour
