@@ -22,7 +22,7 @@ symbole au début. La figure \ref{fig:PC} illustre cette copie.
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.7\textwidth]{pc}
-  \caption{Préfixe cyclique}
+  \caption{Préfixe cyclique} %% TODO mettre la référence
   \label{fig:PC}
 \end{figure}
 
@@ -73,6 +73,36 @@ interférences entre symboles (ISI).
 
 \definition{Interférence entre porteuses}{Interférence dut au recouvrement des
   sous-porteuse en OFDM}
+
+En OFDM, le canal est subdivisé en $N$ sous-porteuses dont les fréquences centrales
+sont espacés d'un multiple de l'inverse de la période symbole $\frac{1}{T}$. De
+cette manière les sous-porteuses sont orthogonales en fréquence comme on peut le
+voir sur la figure \ref{fig:spectre}.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=\textwidth]{spectreOFDM}
+  \caption{Spectre du signal OFDM \cite{annick}}
+  \label{fig:spectre}
+\end{figure}
+
+Cette propriété est essentielle pour démoduler notre signal en réception.
+Néanmoins, une légère distorsion peut être suffisante pour détruire cette
+orthogonalité et induire des recouvrements entre les sous-porteuses. C'est ce
+que l'on appelle l'ICI.
+
+Pour réduire cette interférence il faut mettre en place des techniques de
+pré-égalisation et post-égalisation qui sont très coûteux à mettre en oeuvre.
+%% TODO voir si je dois citer Thomas!
+
+
+%% TODO: PAS SUR DE MOI!!!
+Il est néanmoins possible de simplifié l'égalisation grâce au préfixe cyclique.
+En effet, en introduisant de la redondance et en structurant celle-ci il est
+possible de transformer le produit de convolution classique en produit de
+convolution cyclique. Puis grâce à la transformée de Fourier de transformer
+l'opération de convolution cyclique en produit fréquentiel scalaire. Ce calcul
+est très simple à égaliser.
 
 Dans ce cas ci c'est bien le caractère cyclique du préfixe qui permet d'éliminer
 l'interférence entre porteuses (ICI).
