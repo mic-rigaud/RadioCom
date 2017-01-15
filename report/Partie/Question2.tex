@@ -15,7 +15,16 @@ particulier. ~\\
 
 Le préfixe cyclique se place donc avant le symbole que l'on souhaite
 transmettre. De plus le préfixe cyclique se construit comme la répétition des
-derniers échantillons du bloc qu'il précède.
+derniers échantillons du bloc qu'il précède. C'est-à-dire que si nous souhaitons
+transmettre $N$ état alors nous copierons $N_g$ état finaux du
+symbole au début. La figure \ref{fig:PC} illustre cette copie.
+
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=0.7\textwidth]{pc}
+  \caption{Préfixe cyclique}
+  \label{fig:PC}
+\end{figure}
 
 
 
