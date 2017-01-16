@@ -8,10 +8,9 @@ premier temps qu'un préfixe cyclique est un intervalle de garde
 particulier. ~\\
 
 \definition{Intervalle de garde}{Un intervalle de garde est un signal de durée
-$\Delta$ que l'on place avant chaque symboles que nous souhaitons transmettre
-pour réduire l'interférence inter-symboles (voir section \ref{sec:ISI}). Deux
-types d'intervalles de garde sont couramment utilisés : le préfixe cyclique et
-le bourrage de zéros.}
+  $\Delta$ que l'on place avant chaque symboles que nous souhaitons transmettre.
+  Deux types d'intervalles de garde sont couramment utilisés : le préfixe
+  cyclique et le bourrage de zéros.}
 
 Le préfixe cyclique (souvent appelé CP) se place donc avant le symbole que l'on
 souhaite transmettre. De plus le préfixe cyclique se construit comme la
@@ -87,17 +86,17 @@ voir sur la figure \ref{fig:spectre}.
 \end{figure}
 
 Cette propriété est essentielle pour démoduler notre signal en réception.
-Néanmoins, une légère distorsion peut être suffisante pour détruire cette
-orthogonalité et induire des recouvrements entre les sous-porteuses. C'est ce
-que l'on appelle l'ICI.
+Néanmoins, une légère distorsion, par exemple par effet Doppler, peut être
+suffisante pour détruire cette orthogonalité et induire des recouvrements entre
+les sous-porteuses. C'est ce que l'on appelle l'ICI.
 
 Pour réduire cette interférence il faut mettre en place des techniques de
 pré-égalisation et post-égalisation qui sont très coûteux à mettre en oeuvre.
 %% TODO voir si je dois citer Thomas!
 
-3
 
-%% TODO: PAS SUR DE MOI!!!
+
+
 Il est néanmoins possible de simplifié l'égalisation grâce au préfixe cyclique.
 En effet, en introduisant de la redondance et en structurant celle-ci il est
 possible de transformer le produit de convolution classique en produit de
@@ -107,7 +106,6 @@ est très simple à égaliser.
 
 Dans ce cas ci c'est bien le caractère cyclique du préfixe qui permet d'éliminer
 l'interférence entre porteuses (ICI).
-
 
 
 %%% Local Variables:

@@ -4,9 +4,9 @@
 Dans le document \cite{sujet}, plusieurs équations méritent d'être discutées.
 
 \section{Équation (2) et (4)}
-\label{sec:ISI}
+\label{sec:24}
 
-\textbf{Énonce} :
+\paragraph{Énonce :}
 
 Soit $x_i$ et $y_i$ les vecteurs formés des N échantillons des $j^{ème}$
 symbole émis et reçus, $b_j$ le vecteur de bruit et $H_0$ et $H_1$ les matrices
@@ -32,19 +32,61 @@ $  $H_1=
 \end{bmatrix}
 $
 
+Ou les coefficients $h_0,h_1,\cdots,h_{N-1}$ représentent les échantillons de la
+réponse du canal.
+
 Alors,
 
-$ y_j = H_0*x_j+H_1*x_j-1+b_j$
+$ y_j = H_0*x_j+H_1*x_{j-1}+b_j$
 ~\\
 
 Et en FFT, on peut écrire:
 
 $ Y_j = C_{dft}(H_0*C_{DFT}^{-1}*X_j + H_1*C_{DFT}^{-1}*X_{j-1}) + B_j$
 
+\paragraph{Justification :}
+
+Considérons une séquence de $N$ données $c_{j,0},c_{j,1},\cdots,c_{j,N-1}$ pour le symbole
+OFDM $j$. Chaque donnée $c_{j,k}$ module un signal à la fréquence $f_k$. Donc le
+signal sur cette fréquence s'écrit sous forme complexe: $c_{j,k}*e^{2j\pi f_kt}$
+
+Le signal $x_j(t)$ total transmis sur le symbole OFDM $j$ est donc: \\
+$x_j(t)=\sum_{k=0}^{N-1}c_{j,k}e^{2j\pi f_kt}$
+
+Or le multiplexage est orthogonal donc $f_k=f_0+\frac{1}{T}$
+
+Ainsi, en posant $\Delta f = \frac{1}{T}$, on obtient: \\
+$x_j(t)=e^{2j\pi f_0t}\sum_{k=0}^{N-1}c_{j,k}e^{2j\pi k\Delta ft}$
+
+En ramenant le signal en bande de base on a:\\
+$x_j(t)=\sum_{k=0}^{N-1}c_{j,k}e^{2j\pi k\Delta ft}$
+~\\
+
+De même, le signal parvenant au récepteur s'écrit:\\
+$y_j(t)=\sum_{k=0}^{N-1}c_{j,k}H_k(t)e^{2j\pi (f_0+\frac{k}{T})t}$, avec $H_k(t)$ la
+fonction de transfert du canal autour de la fréquence $f_k$ et au temps $t$.
+
+Si on discrétise le symbole on pourra écrire que: \\
+$\forall n \in [0,N-1], y_j(n) = h_0*x_j(n)$, avec $h_0$ la fonction de
+transfert du canal direct.
+
+Seulement, le canal subit des multi-trajets et du bruit. Donc il va falloir
+ajouter les états précédents avec une fonction de transfert différente qui
+correspondra à la fonction de transfert du canal pour un certain echo.
+
+Ainsi,
+
+$\forall n \in [0,N-1], y_j(n) = h_0*x_j(n) + h_1*x_j(n-1) + \cdots
++h_{n}*x_j(0) + h_{n+1}*x_{j-1}(N-1) + \cdots + h_{N-1}*x_{j-1}(n+1) + b_j$
+
+En écriture matricielle, on obtient donc:
+
+$ y_j = H_0*x_j+H_1*x_{j-1}+b_j$, avec les matrices triangulaires définies précédemment.
 
 \section{Équation (6) et (8)}
 
-\textbf{Énonce : }
+\paragraph{Énonce :}
+
 
 L'égalisation doit fournir une estimation de $\widehat{X_j}$. Dans le domaine
 fréquentiel l'équation est:
