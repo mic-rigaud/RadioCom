@@ -1,5 +1,64 @@
 
-\chapter{Explication sur des équations tirées}
+\chapter{Justification des relations d'égalisation DFVE}
+
+Dans le document \cite{sujet}, plusieurs équations méritent d'être discutées.
+
+\section{Équation (2) et (4)}
+\label{sec:ISI}
+
+\textbf{Énonce} :
+
+Soit $x_i$ et $y_i$ les vecteurs formés des N échantillons des $j^{ème}$
+symbole émis et reçus, $b_j$ le vecteur de bruit et $H_0$ et $H_1$ les matrices
+triangulaires définies par :
+
+$H_0=
+\begin{bmatrix}
+  h_0 & 0 & \cdots & \cdots & \cdots & 0 \\
+  h_1 & h_0 & 0 & \cdots  & \cdots & \vdots \\
+  \vdots & & \ddots & \ddots &  & \vdots \\
+  h_{N-1} & h_{N-2} & \cdots & \cdots & h_1 & h_0
+
+\end{bmatrix}
+$  $H_1=
+\begin{bmatrix}
+  0 & h_{N-1} & h_{N-2} & \cdots & \cdots & h_1 \\
+  0 & 0 & h_{N-1} & h_{N-2} &  & h_2 \\
+  \vdots & 0 & \ddots & \ddots &   & \vdots \\
+  \vdots &  &  & \ddots  & \ddots & h_{N-1} \\
+  0 & \cdots & \cdots & \cdots & 0 & 0 \\
+
+
+\end{bmatrix}
+$
+
+Alors,
+
+$ y_j = H_0*x_j+H_1*x_j-1+b_j$
+~\\
+
+Et en FFT, on peut écrire:
+
+$ Y_j = C_{dft}(H_0*C_{DFT}^{-1}*X_j + H_1*C_{DFT}^{-1}*X_{j-1}) + B_j$
+
+
+\section{Équation (6) et (8)}
+
+\textbf{Énonce : }
+
+L'égalisation doit fournir une estimation de $\widehat{X_j}$. Dans le domaine
+fréquentiel l'équation est:
+~\\
+
+$\widehat{X_j}= P_0*Y_j+P_1*\tilde{X_j}$
+
+Les matrices $P_0$ et $P_1$ suivant le critère de ZF (Zero forcing) sont:
+
+$P_0^{ZF} = C_{DFT}*H_0^{-1}*C_{DFT}^{-1}$
+
+$P_1^{ZF} = - C_{DFT}*H_0^{-1}*H_1*C_{DFT}^{-1}$
+
+
 
 
 %%% Local Variables:
