@@ -58,13 +58,48 @@ Ensuite nous convoluons notre signal temporelle par la réponse fréquentielle d
 
 \section{Structure fréquentielle DFVE}
 
+\paragraph{}
+Pour l'égalisation, nous avons un traitement Post-réception afin de compenser les effets du canal de propagation. Ici, nous avons connaissance de nos coefficients des matrices $H0$ et $H1$ \cite{sujet}, nous n'appliquons donc pas l'algorithme LMS. Grâce aux deux matrices précédentes, nous avons calculé les matrices $P0$ et $P1$ de la Figure ~\ref{dfveF}.
 
+\paragraph{}
+\vspace{1\baselineskip}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[scale=1]{dfveF.png}
+  \caption{Chaîne de réception de la structure fréquentielle DFVE}
+	\label{dfveF} 
+\end{figure}
+\vspace{1\baselineskip}
 \section{Structure temporelle DFVE}
 
+\paragraph{}
+Après notre traitement, on peut voir sur la Figure ~\ref{resultDFVEF}, que les états du signal à la réception après égalisation correspondent bien aux constellations du signal de départ. De plus, après démodulation de ces états, nous avons comparé nos résultats au signal de départ. Pour un faible bruit blanc Gaussien complexe (variance de 0.01) dans le canal de propagation, nous avons une erreur de 0\%. Pour un bruit de variance 0.05 ,nous avons 5\% d'erreurs.
 
+\paragraph{}
+\vspace{1\baselineskip}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[scale=0.8]{resultDFVEF.png}
+  \caption{Diagramme de constellation après égalisation à la réception}
+	\label{resultDFVEF} 
+\end{figure}
+\vspace{1\baselineskip}
 
+\section{Structure temporelle DFVE}
+\paragraph{}
+Avec la structure d'égalisation temporelle DFVE ~\ref{dfveT}, nous avons exactement les mêmes résultats. Ce qui montre qu'en connaissant exactement la réponse fréquentielle du canal, les deux structures sont équivalentes. Dans cette situation, l'avantage de la structure temporelle DFVE est que les matrices $Q0$ et $Q1$ sont triangulaires, ce qui réduit la complexité calculatoire de deux.
+\paragraph{}
+\vspace{1\baselineskip}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[scale=1]{dfveT.png}
+  \caption{Chaîne de réception de la structure temporelle DFVE}
+	\label{dfveT} 
+\end{figure}
+\vspace{2\baselineskip}
 
-
+\paragraph{}
+Rappelons, avant de passé à la partie suivante, que nos deux structures sont équivalentes en résultats car nous avons supposé connaître la réponse fréquentielle du canal. Mais cela n'est pas vraie en pratique. Le but de la partie suivante sera de tester une méthode d'éstimation des coefficients complexes des matrices intervenant dans l'égalisation DFVE.
 
 %%% Local Variables:
 %%% mode: latex
