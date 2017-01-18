@@ -42,9 +42,9 @@ $ y_j = H_0*x_j+H_1*x_{j-1}+b_j$
 
 Et en FFT, on peut écrire:
 
-$ Y_j = C_{dft}(H_0*C_{DFT}^{-1}*X_j + H_1*C_{DFT}^{-1}*X_{j-1}) + B_j$
+$ Y_j = C_{DFT}(H_0*C_{DFT}^{-1}*X_j + H_1*C_{DFT}^{-1}*X_{j-1}) + B_j$
 
-\paragraph{Justification :}
+\paragraph{Démonstration :}
 
 Considérons une séquence de $N$ données $c_{j,0},c_{j,1},\cdots,c_{j,N-1}$ pour le symbole
 OFDM $j$. Chaque donnée $c_{j,k}$ module un signal à la fréquence $f_k$. Donc le
@@ -99,6 +99,65 @@ Les matrices $P_0$ et $P_1$ suivant le critère de ZF (Zero forcing) sont:
 $P_0^{ZF} = C_{DFT}*H_0^{-1}*C_{DFT}^{-1}$
 
 $P_1^{ZF} = - C_{DFT}*H_0^{-1}*H_1*C_{DFT}^{-1}$
+
+\paragraph{Démonstration}
+
+
+Partons de la formule suivante:
+
+$ Y_j = C_{DFT}(H_0*C_{DFT}^{-1}*X_j + H_1*C_{DFT}^{-1}*X_{j-1}) + B_j$
+
+On peut réécrire l'équation de la façon suivante:
+
+$ Y_j - C_{DFT}*H_1*C_{DFT}^{-1}*X_{j-1}= C_{DFT}*H_0*C_{DFT}^{-1}*X_j + B_j$
+
+On a alors a gauche quelque chose de connue puisqu'il est possible de connaître
+$X_{j-1}$ en conservant en mémoire le symbole précédent et la matrice $H_1$ est
+connue car défini le canal.
+
+Puisque les composantes du vecteur $B_j$ sont des composantes de bruit
+gaussiennes indépendantes, il est possible d'appliquer le théorème des moindres
+carrées.
+
+On a alors:
+
+$\widehat{X_j}=[((C_{DFT}*H_0*C_{DFT}^{-1})^t*C_{DFT}*H_0*C_{DFT}^{-1})^{-1}*(C_{DFT}*H_0*C_{DFT}^{-1})^t]*(Y_j - C_{DFT}*H_1*C_{DFT}^{-1}*X_{j-1})$
+
+Or, on peut remarquer que $H_0$ est inversible car c'est une matrice
+triangulaire supérieur avec des valeurs non nulles sur la diagonales. De plus,
+$H_0^t$ est également inversible comme matrice triangulaire supérieur avec des
+valeurs non nulles sur la diagonales. Ainsi,
+
+$((C_{DFT}*H_0*C_{DFT}^{-1})^t*C_{DFT}*H_0*C_{DFT}^{-1})^{-1}*(C_{DFT}*H_0*C_{DFT}^{-1})^t
+=
+((C_{DFT}^{-1})^t*H_0^t*C_{DFT}^{t}*C_{DFT}*H_0*C_{DFT}^{-1})^{-1}*(C_{DFT}^{-1})^t*H_0^t*C_{DFT}^{t}
+=
+(C_{DFT}*H_0^{-1}*C_{DFT}^{-1}*(C_{DFT}^t)^{-1}*(H_0^t)^{-1}*((C_{DFT}^{-1})^t)^{-1}*(C_{DFT}^{-1})^t*H_0^t*C_{DFT}^{t}
+= C_{DFT}*H_0^{-1}*C_{DFT}^{-1}$
+
+Donc,
+
+$\widehat{X_j}=[C_{DFT}*H_0^{-1}*C_{DFT}^{-1}]*(Y_j -
+C_{DFT}*H_1*C_{DFT}^{-1}*X_{j-1})$
+
+Et ainsi,
+
+$\widehat{X_j}=C_{DFT}*H_0^{-1}*C_{DFT}^{-1}*Y_j -
+C_{DFT}*H_0^{-1}*H_1*C_{DFT}^{-1}*X_{j-1}$
+~\\
+
+Si on pose:
+
+$P_0^{ZF}=C_{DFT}*H_0^{-1}*C_{DFT}^{-1}$
+
+$P_1^{ZF}=-C_{DFT}*H_0^{-1}*H_1*C_{DFT}^{-1}$
+
+$\tilde{X_j}=X_{j-1}$
+
+On obtient bien le résultat demandé:
+
+
+$\widehat{X_j}= P_0*Y_j+P_1*\tilde{X_j}$
 
 
 
