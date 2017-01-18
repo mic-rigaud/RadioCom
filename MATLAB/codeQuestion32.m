@@ -103,8 +103,6 @@ erreur=1-length(find(X==R))/length(R);
 Q0=inv(H0);
 Q1=-H1;
 for ind = 1:NbSym
-% décodage du symbole ind
-y=fft(xrec((ind-1)*Nb+1:ind*Nb));
 % sauvegarde du ième symbole décodé
 if ind==1
     Xdec2((ind-1)*Nb+1:ind*Nb) = fft(Q0*xrec((ind-1)*Nb+1:ind*Nb));

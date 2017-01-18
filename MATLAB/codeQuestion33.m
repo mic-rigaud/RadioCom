@@ -10,7 +10,6 @@ NbSym = 100; %100 symboles
 R = randint(Nb*NbSym,1,M);
 % Mise en constellation QAM.
 x1 = pskmod(R, M);
-scatterplot(x1);title('Constelations du signal à l emission après modulation pi/4-QPSK');figure;
 
 % insertion pilote 1+j tous les 3 symboles OFDM
 pilote=[1+1j;1+1j;1+1j;1+1j];
@@ -27,6 +26,7 @@ else
 end
     
 end
+scatterplot(X);title('Constelations du signal à l emission après modulation pi/4-QPSK');figure;
 
 % Création signal OFDM
 x = zeros(size(X));
@@ -82,8 +82,8 @@ title('partie imaginaire de x avec bruit')
 %Matrice triangulaire contenant les coefs qui représentent les échantillons
 %de la réponse du canal pendant l'emission d'un symbole OFDM, mais on les
 %mets faux pour voir si notre algo LMS estime bien le canal
-H0=[h(1)+0.1 0 0.06 0;h(2)+0.1 h(1) 0 0;h(3) h(2)-0.05 h(1) 0 ; h(4) h(3)-0.1 h(2) h(1)];
-H1=[0 h(3)+0.1 h(2) h(1); 0.002 0 h(3)-0.2 h(2)+0.005 ; 0.05 0 0 h(3) ; 0.001 0 0 0];
+H0=[h(1)+0.1 0 0 0;h(2)+0.4 h(1) 0 0;h(3) h(2)+0.05 h(1) 0 ; h(4) h(3)+0.2 h(2) h(1)];
+H1=[0 h(3)+0.1 h(2) h(1); 0 0 h(3)+0.5 h(2)+0.005 ; 0 0 0 h(3) ; 0 0 0 0];
 
 %Ceci est notre matrice de TFD
 w=exp(-2*pi*j/4);
@@ -103,10 +103,10 @@ for ind = 1:NbSymNew
 y=fft(xrec((ind-1)*Nb+1:ind*Nb));
 %si on a les valeurs pilotes, on estime PO et P1
 if mod(ind,3)==0
-    Xdectemp = P0*y+P1*(1./(Xdec((indNew-2)*Nb+1:(indNew-1)*Nb))');
+    Xdectemp = P0*y+P1*(1./(Xdec((indNew-2)*Nb+1:(indNew-1)*Nb)))';
     %estimation des matrices
-  P0=P0-0.005.*(Xdectemp-pilote)*(y)';
-  P1=P1-0.005.*(Xdectemp-pilote)*(pilote)';
+ P0=P0-0.01.*(Xdectemp-pilote)*(y)';
+ P1=P1-0.01.*(Xdectemp-pilote)*(pilote)';
 end
 if indNew==1
     Xdec((indNew-1)*Nb+1:indNew*Nb) = P0*y;
@@ -155,8 +155,8 @@ for ind = 1:NbSym
 if mod(ind,3)==0
     Xdectemp = fft(Q0*(xrec((ind-1)*Nb+1:ind*Nb)+Q1*(ifft((1./(Xdec2((ind-2)*Nb+1:(ind-1)*Nb))')))));
     %estimation des matrices
-  Q0=Q0-0.005.*(ifft(Xdectemp)-piloteIFFT)*(xrec((ind-1)*Nb+1:ind*Nb))';
-  Q1=Q1-0.005.*(ifft(Xdectemp)-piloteIFFT)*(piloteIFFT)';
+  Q0=Q0-0.01.*(ifft(Xdectemp)-piloteIFFT)*(xrec((ind-1)*Nb+1:ind*Nb))';
+  Q1=Q1-0.01.*(ifft(Xdectemp)-piloteIFFT)*(piloteIFFT)';
 end
 
 if ind==1
