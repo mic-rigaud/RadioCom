@@ -5,7 +5,7 @@ M = 4;
 % Nombre de porteuses dans le symbole OFDM
 Nb = 4;
 % Nombre de symboles OFDM dans la simulation
-NbSym = 30; %10 symboles 
+NbSym = 100; %100 symboles 
 % Tirage aléatoire d'entiers allant de 0 à M-1
 R = randint(Nb*NbSym,1,M);
 % Mise en constellation QAM.
@@ -14,16 +14,15 @@ scatterplot(x1);title('Constelations du signal à l emission après modulation pi/
 
 % insertion pilote 1+j tous les 3 symboles OFDM
 pilote=[1+1j;1+1j;1+1j;1+1j];
+piloteIFFT=ifft(pilote);
 X=[];
 NbSymNew=NbSym+NbSym/3;
 bou=1;
 for i = 1:NbSym+NbSym/3
 if mod(i,3)==0
     X=[X;pilote];
-    XXX(i,:)=[pilote].';
 else
    X=[X;x1((bou-1)*4+1:bou*4)];
-   XXX(i,:)=[x1((bou-1)*4+1:bou*4)].';
    bou=bou+1;
 end
     
@@ -81,16 +80,20 @@ title('partie imaginaire de x avec bruit')
 % car elle utilise des matrices triangulaire
 
 %Matrice triangulaire contenant les coefs qui représentent les échantillons
-%de la réponse du canal pendant l'emission d'un symbole OFDM
-H0=[h(1) 0 0 0;h(2) h(1) 0 0;h(3) h(2) h(1) 0 ; h(4) h(3) h(2) h(1)];
-H1=[0 h(3) h(2) h(1); 0 0 h(3) h(2) ; 0 0 0 h(3) ; 0 0 0 0];
+%de la réponse du canal pendant l'emission d'un symbole OFDM, mais on les
+%mets faux pour voir si notre algo LMS estime bien le canal
+H0=[h(1)+0.1 0 0.06 0;h(2)+0.1 h(1) 0 0;h(3) h(2)-0.05 h(1) 0 ; h(4) h(3)-0.1 h(2) h(1)];
+H1=[0 h(3)+0.1 h(2) h(1); 0.002 0 h(3)-0.2 h(2)+0.005 ; 0.05 0 0 h(3) ; 0.001 0 0 0];
+
 %Ceci est notre matrice de TFD
 w=exp(-2*pi*j/4);
 MatriceTFD=[1 1 1 1;1 w w^2 w^3;1 w^2 w^4 w^6;1 w^3 w^6 w^9];
 %Matrice optimales selon le critère ZF de la relation 6 de la partie 2.2 
 P0=MatriceTFD*inv(H0)*inv(MatriceTFD);
 P1=-MatriceTFD*inv(H0)*H1*inv(MatriceTFD);
-
+%Matrices de la relation 8 de la partie 2.2
+Q0=inv(H0);
+Q1=-H1;
 %% selon la figure 1
 %egalisation dfve fréquentielle avec algo LMS simplifié pour estimation des
 %matrices
@@ -100,21 +103,16 @@ for ind = 1:NbSymNew
 y=fft(xrec((ind-1)*Nb+1:ind*Nb));
 %si on a les valeurs pilotes, on estime PO et P1
 if mod(ind,3)==0
-    Xdectemp = P0*y+P1*(1./(Xdec((indNew-2)*Nb+1:(indNew-1)*Nb)))';
+    Xdectemp = P0*y+P1*(1./(Xdec((indNew-2)*Nb+1:(indNew-1)*Nb))');
     %estimation des matrices
-   P0=P0-0.01.*(Xdectemp-pilote)*(y)';
-    P1=P1-0.01.*(Xdectemp-pilote)*(pilote)';
-
+  P0=P0-0.005.*(Xdectemp-pilote)*(y)';
+  P1=P1-0.005.*(Xdectemp-pilote)*(pilote)';
 end
 if indNew==1
     Xdec((indNew-1)*Nb+1:indNew*Nb) = P0*y;
-        sig(indNew,:)=( Xdec((indNew-1)*Nb+1:indNew*Nb)).';
-
     indNew=indNew+1;
 else
-    Xdec((indNew-1)*Nb+1:indNew*Nb) = P0*y+P1*(1./(Xdec((indNew-2)*Nb+1:(indNew-1)*Nb)))';
-        sig(indNew,:)=( Xdec((indNew-1)*Nb+1:indNew*Nb)).';
-
+    Xdec((indNew-1)*Nb+1:indNew*Nb) = P0*y+P1*(1./(Xdec((indNew-2)*Nb+1:(indNew-1)*Nb))');
     indNew=indNew+1;
 end
 
@@ -143,13 +141,57 @@ scatterplot(SignalDepartEstime2)
 title('Constelations après structure d egalisation fréquentielle DFVE')
 
 %démodulation
-X = pskdemod(SignalDepartEstime2, M)';
+Xdemod = pskdemod(SignalDepartEstime2, M)';
 
-erreur=1-length(find(X==R(1:108)))/length(R(1:108));
-
-
+erreur=1-length(find(Xdemod==R(1:356)))/length(R(1:356));
 
 
 
 
+%% selon la figure 2
+%Matrices de la relation 8 de la partie 2.2
+for ind = 1:NbSym
 
+if mod(ind,3)==0
+    Xdectemp = fft(Q0*(xrec((ind-1)*Nb+1:ind*Nb)+Q1*(ifft((1./(Xdec2((ind-2)*Nb+1:(ind-1)*Nb))')))));
+    %estimation des matrices
+  Q0=Q0-0.005.*(ifft(Xdectemp)-piloteIFFT)*(xrec((ind-1)*Nb+1:ind*Nb))';
+  Q1=Q1-0.005.*(ifft(Xdectemp)-piloteIFFT)*(piloteIFFT)';
+end
+
+if ind==1
+    Xdec2((ind-1)*Nb+1:ind*Nb) = fft(Q0*xrec((ind-1)*Nb+1:ind*Nb));
+else
+    Xdec2((ind-1)*Nb+1:ind*Nb) = fft(Q0*(xrec((ind-1)*Nb+1:ind*Nb)+Q1*(ifft((1./(Xdec2((ind-2)*Nb+1:(ind-1)*Nb))'))))) ;
+end
+end
+
+scatterplot(Xdec2)
+title('Constelations après structure d egalisation tempo DFVE et avec pilote')
+
+%% On enleve les pilotes pour recomposer le signal
+RecomposeSignal=reshape(Xdec2,4,length(Xdec2)/4);
+g=size(RecomposeSignal)
+SignalDepartEstime=[];
+for t=1:g(2)
+    if(mod(t,3)==0)
+    else
+        SignalDepartEstime=[SignalDepartEstime;RecomposeSignal(:,t).'];
+    end
+
+end
+
+h=size(SignalDepartEstime);
+for v=1:h(2)
+    for vv=1:h(1)
+        SignalDepartEstime2((vv-1)*4+v)=SignalDepartEstime(vv,v);
+    end
+end
+
+scatterplot(SignalDepartEstime2)
+title('Constelations après structure d egalisation temporelle DFVE')
+
+%démodulation
+Xdemod2 = pskdemod(SignalDepartEstime2, M)';
+
+erreur2=1-length(find(Xdemod2==R(1:356)))/length(R(1:356));
