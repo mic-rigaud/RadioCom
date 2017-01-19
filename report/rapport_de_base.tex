@@ -133,31 +133,20 @@
 
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
+\paragraph{}
+Dans le cadre de notre spécialisation en Télécommunications et Sécurité à l'ENSTA Bretagne, nous avons eu un projet bibliographique et de simulation sur le principe de l'OFDM, et une technique spécifique permettant de gagner jusqu'à 20\% de débit.
+\paragraph{}
 Avant de répondre précisément aux questions du projet donné par M ROSTAING, nous
-souhaitons tout d’abord expliquer quelques problématiques des communications
-sans-fils et ce qu’est le principe de l’OFDM () dans cette introduction.
+souhaitons tout d’abord expliquer brièvement le principe du protocole OFDM (orthogonal frequency-division multiplexing).
 Ensuite, dans les deux premières questions, nous nous intéresserons au protocole
 OFDM avec intervalle de garde entre symboles. Puis, pour aller plus loin, nous
-étudierons l’article\cite{sujet} avec des simulations MATLAB afin de mieux comprendre.
-Ce dernier consiste à mettre en place un système permettant de se passer de
-l’intervalle de garde, et ainsi, de ne pas perdre de débit à cause des temps
-d’attentes entre symboles.
+étudierons l’article \cite{sujet} avec des simulations MATLAB et démonstrations mathématiques afin de mieux comprendre comment nous pouvons nous passer de l'intervalle de garde, et tout de même égaliser et estimer notre signal correctement. Enlever les intervalles de garde est intéressant, car nous pourrions augmenter le débit de transmission des données.
+\paragraph{}
+Nous espérons que tout lecteur aura autant de plaisir à lire ce rapport que nous avons eu à l'écrire.
 
 
-\section*{Problèmes généraux des transmissions de données sans-fils}
-Nous allons présenter ici les deux principaux problèmes rencontrés lors du
-passage du signal transmis dans le canal de propagation. Ceux-ci sont liés à la
-réponse fréquentielle du canal de propagation, mais ont des phénomènes physiques
-différents.
 
-Le premier problème est l’interférence entre symbole. Cela est dû à la
-dispersion des symboles dans le temps lorsque nous en envoyons plusieurs à la suite.
-
-L’autre problème est l’affaiblissement par multi-trajets, aussi appelé Fading.
-Cela arrive lorsque le même signal à l’émissions parcours des trajets différents
-avec réflexions et diffractions, puis arrive sur le récepteur avec un décalage
-dans le temps et des variations de phases par rapport au signal reçu en trajet direct.
-
+\newpage
 \section*{Les signaux OFDM}
 
 \begin{figure}[!h]
