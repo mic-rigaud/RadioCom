@@ -14,14 +14,14 @@ particulier. ~\\
 
 Le préfixe cyclique (souvent appelé CP) se place donc avant le symbole que l'on
 souhaite transmettre. De plus le préfixe cyclique se construit comme la
-répétition des derniers échantillons du bloc qu'il précède. C'est-à-dire que si
-nous souhaitons transmettre $N$ état alors nous copierons $N_g$ état finaux du
+répétition des derniers échantillons du bloc mise au début. C'est-à-dire que si
+nous souhaitons transmettre $N$ états alors nous copierons $N_g$ état finaux du
 symbole au début. La figure \ref{fig:PC} illustre cette copie.
 
 \begin{figure}[!h]
   \centering
   \includegraphics[width=0.7\textwidth]{pc}
-  \caption{Préfixe cyclique} %% TODO mettre la référence
+  \caption{Préfixe cyclique ~\ref{supelec}} %% TODO mettre la référence
   \label{fig:PC}
 \end{figure}
 
@@ -41,10 +41,10 @@ sous-porteuses.
 
 
 
-Les symboles que nous envoyons subissent des échos. Les échos correspondent aux
+Les symboles que nous envoyons subissent des échos. Les échos correspondent au
 signal initialement envoyé mais atténué et retardé. Ils se superposent au signal
-reçut de tel façon qu'a un instant $t$ il est possible de recevoir à la foi par le
-signal principal le symbole $Si$ et par l'écho le symbole $S_{i-1}$: c'est l'ISI.
+reçu de tel façon qu'a un instant $t$ il est possible de recevoir à la fois le symbole $Si$ par le
+signal principal et le symbole $S_{i-1}$ par l'écho : c'est l'ISI.
 
 Si on suppose connu le temps $T_{max}$ du retard maximal d'un écho (en pratique
 il est possible de déterminer les propriétés du canal), et qu'on émet un
@@ -70,8 +70,9 @@ interférences entre symboles (ISI).
 
 \subsection{Interférence entre porteuses (ICI)}
 \label{sec:ICI}
-\definition{Interférence entre porteuses}{Interférence dut au recouvrement des
-  sous-porteuse en OFDM}
+\definition{Interférence entre porteuses}{Interférence due au recouvrement des
+  sous-porteuses en OFDM}
+
 
 En OFDM, le canal est subdivisé en $N$ sous-porteuses dont les fréquences centrales
 sont espacés d'un multiple de l'inverse de la période symbole $\frac{1}{T}$. De
@@ -91,13 +92,13 @@ suffisante pour détruire cette orthogonalité et induire des recouvrements entr
 les sous-porteuses. C'est ce que l'on appelle l'ICI.
 
 Pour réduire cette interférence il faut mettre en place des techniques de
-pré-égalisation et post-égalisation qui sont très coûteux à mettre en oeuvre.
+pré-égalisation et post-égalisation qui sont très coûteuses à mettre en oeuvre.
 %% TODO voir si je dois citer Thomas!
 
 
 
 
-Il est néanmoins possible de simplifié l'égalisation grâce au préfixe cyclique.
+Il est néanmoins possible de simplifier l'égalisation grâce au préfixe cyclique.
 En effet, en introduisant de la redondance et en structurant celle-ci il est
 possible de transformer le produit de convolution classique en produit de
 convolution cyclique. Puis grâce à la transformée de Fourier de transformer
