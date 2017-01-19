@@ -134,7 +134,10 @@
 \chapter*{Introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 \paragraph{}
-Dans le cadre de notre spécialisation en Télécommunications et Sécurité à l'ENSTA Bretagne, nous avons eu un projet bibliographique et de simulation sur le principe de l'OFDM, et une technique spécifique permettant de gagner jusqu'à 20\% de débit.
+Dans le cadre de notre spécialisation en Télécommunications et Sécurité à
+l'ENSTA Bretagne, nous avons eu un projet bibliographique et de simulation sur
+le principe de l'OFDM, et une technique spécifique (DFVE) permettant de gagner
+jusqu'à 20\% de débit.
 \paragraph{}
 Avant de répondre précisément aux questions du projet donné par M ROSTAING, nous
 souhaitons tout d’abord expliquer brièvement le principe du protocole OFDM (orthogonal frequency-division multiplexing).
@@ -143,23 +146,9 @@ OFDM avec intervalle de garde entre symboles. Puis, pour aller plus loin, nous
 étudierons l’article \cite{sujet} avec des simulations MATLAB et démonstrations mathématiques afin de mieux comprendre comment nous pouvons nous passer de l'intervalle de garde, et tout de même égaliser et estimer notre signal correctement. Enlever les intervalles de garde est intéressant, car nous pourrions augmenter le débit de transmission des données.
 \paragraph{}
 Nous espérons que tout lecteur aura autant de plaisir à lire ce rapport que nous avons eu à l'écrire.
-
-
-
 \newpage
-\section*{Les signaux OFDM}
+\input{Partie/Preambule}
 
-\begin{figure}[!h]
-  \centering
-  \includegraphics[width=\textwidth]{Frequence_time.png}
-  \caption[Temps-Frequence]{Temps-Frequence: representation d un signal OFDM}
-  \label{fig:tempsFreq}
-\end{figure}
-
-Comme nous pouvons le voir, les signaux OFDM résultent d’une modulation multi-porteuses. C’est-à-dire que nous répartissons l’information sur une bande de fréquence, autour de plusieurs porteuses de fréquences centrales également réparties. Puis, à chaque sous-fréquences porteuses, on envoie des symboles répartis dans le temps espacé par des intervalles de garde.
-
-
-\paragraph{}
 
 
 \newpage
@@ -177,7 +166,24 @@ Comme nous pouvons le voir, les signaux OFDM résultent d’une modulation multi
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 \paragraph{}
-Pour conclure, revenons sur le travail éffectué. Nous avons tout d'abord fait de nombreuses recherches bibliographique sur l'OFDM, afin d'en comprendre les principes. L'utilisation du préfixe cyclique dans les signaux OFDM permet d'éviter l'ISI et l'ICI, ce qui facilite l'estimation du canal de propagation lors de la réception. Mais le préfixe cyclique peut occuper jusqu'à 20\% du débit, auquel on ajoute encore une occupation de débit pour les pilotes permettant d'estimer le canal. Après avoir bien apréhender les spécificités de l'OFDM, nous nous sommes intéressés à l'extraction du préfixe cyclique afin de monter en débit. Sans ce préfixe, nous avons de l'ICI qui apparait, ce qui complique fortement l'étape d'égalisation. En comprenant le rapport scientifique \cite{sujet} en annexe à la page \pageref{annexe}, nous avons tout d'abord mis en évidence, grâce à Matlab, la réussite des structures d'égalisation DFVE (temporelle et fréquentielle) en éstimant connaître le canal de propagration. Mais en réalité, la réponse fréquentielle du canal change, et nous ne le connaissons pas. Nous avons donc ajouté des pilotes à notre signal à l'émission, afin d'éstimer le canal à la réception. Grâce à l'algorithme LMS, nous avons réussi à faire converger l'éstimation du canal vers la bonne réponse fréquentielle. 
+Pour conclure, revenons sur le travail effectué. Nous avons tout d'abord fait de
+nombreuses recherches bibliographiques sur l'OFDM, afin d'en comprendre les
+principes. L'utilisation du préfixe cyclique dans les signaux OFDM permet
+d'éviter l'ISI et l'ICI, ce qui facilite l'estimation du canal de propagation
+lors de la réception. Mais le préfixe cyclique peut occuper jusqu'à 20\% du
+débit, auquel on ajoute encore une occupation de débit pour les pilotes
+permettant d'estimer le canal. Après avoir bien appréhender les spécificités de
+l'OFDM, nous nous sommes intéressés à l'extraction du préfixe cyclique afin de
+monter en débit. Sans ce préfixe, nous avons de l'ICI qui apparaît, ce qui
+complique fortement l'étape d'égalisation. En comprenant le rapport scientifique
+\cite{sujet} en annexe à la page \pageref{annexe}, nous avons tout d'abord mis
+en évidence, grâce à Matlab, la réussite des structures d'égalisation DFVE
+(temporelle et fréquentielle) en estimant connaître le canal de propagation.
+Mais en réalité, la réponse fréquentielle du canal change, et nous ne la
+connaissons pas. Nous avons donc ajouté des pilotes à notre signal à l'émission,
+afin d'estimer le canal à la réception. Grâce à l'algorithme LMS, nous avons
+réussi à faire converger l'estimation du canal vers la bonne réponse
+fréquentielle.
 
 
 

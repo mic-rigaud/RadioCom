@@ -1,5 +1,5 @@
 
-\section{Les signaux OFDM}
+\section*{Les signaux OFDM}
 \label{sec:defofdm}
 \definition{OFDM}{\og L’OFDM (orthogonal frequency-division multiplexing) est un
   procédé de codage de signaux numériques par répartition en fréquences
@@ -7,17 +7,20 @@
 
 Le principe d'un signal OFDM est de répartir notre signal numérique sur de
 multiple sous-porteuses orthogonales. Puisque les sous-porteuses sont
-orthogonales, en principe elles n'interfèrent pas entre elles. Il est donc
-possible d'en extraire l'information facilement\footnote{En pratique, ce n'est
-  pas le cas. Ce problème est abordé à la page \pageref{sec:ICI}}. De plus,
+orthogonales, en principe elles n'interfèrent pas entre elles\footnote{En pratique, ce n'est
+  pas le cas. Ce problème est abordé à la page \pageref{sec:ICI}}. Il est donc
+possible d'en extraire l'information facilement. De plus,
 puisque le signal numérique est réparti sur plusieurs sous-porteuses on augmente
 le débit en transmettant plusieurs état en même temps. La figure
 \ref{fig:tempsFreq} illustre la représentation temps-fréquence d'un signal OFDM.
 
+L'égalisation, ainsi que le préfixe cyclique dans les signaux OFDM seront
+abordées dans les chapitres suivants.
+
 \begin{figure}[!h]
   \centering
   \includegraphics[width=\textwidth]{Frequence_time.png}
-  \caption[Temps-Frequence]{Temps-Frequence: representation d un signal OFDM}
+  \caption[Temps-Frequence]{Temps-Frequence: representation d un signal OFDM\cite{keysight:_concep_ofdm}}
   \label{fig:tempsFreq}
 \end{figure}
 
