@@ -32,7 +32,7 @@
 %\usepackage{framed}				% permet de faire des environnement cadre
 %\usepackage{fancybox}			% permet de realiser les cadres
 \usepackage{titletoc}			% permet de modifier les titres
-%\usepackage{caption}
+\usepackage[final]{pdfpages}
 %\usepackage[a4paper, top=2cm, bottom=2cm]{geometry}
 \usepackage{frbib}                      %permet d avoir une biblio francaise
 \usepackage[babel=true]{csquotes}
@@ -191,10 +191,11 @@ Comme nous pouvons le voir, les signaux OFDM résultent d’une modulation multi
 
 %%%% ANNEXE %%%%%%%%%%%%
 
-%\part*{Annexe}
+\part*{Annexe}
+\label{annexe}
 \appendix
 \nocite{*}
-%\input{annexe_}
+\includepdf[pages=1-4]{./../ressource/261_373.pdf}
 \newpage
  \listoffigures
  \printindex

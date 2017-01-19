@@ -11,18 +11,44 @@ multi-trajets, ainsi le système devient complexe et donc le coût des terminaux
 devient élevé.
 \paragraph{}
 L’idée de l’égalisation OFDM est de transformer l’égalisation faite dans le
-domaine temporel pour un signal mono-porteuse dans le domaine fréquentiel avec un signal multi-porteuse. Dans ce chapitre, nous décrierons tout d'abord l'égalisation d'un point de vue très théorique, pour ensuite analyser plus précisément comment elle se fait d'un point de vue pratique. 
+domaine temporel pour un signal mono-porteuse dans le domaine fréquentiel avec
+un signal multi-porteuses. Dans ce chapitre, nous décrierons tout d'abord
+l'égalisation d'un point de vue théorique, pour ensuite analyser sa mise en
+place pratique.
 
 
 \section{Principe théorique de l'égalisation OFDM}
 \paragraph{}
-Nous avons un signal multi-porteuses et notre problème est que la fonction de transfert du canal de propagation n'est pas plat dans la bande passante totale du signal. 
+Nous avons un signal multi-porteuses dont la fonction de
+transfert du canal de propagation n'est pas plat dans la bande passante totale
+du signal.
 \paragraph{}
-Premièrement, plaçons nous au niveau d'une sous-porteuse. A la fréquence de la sous-porteuse, grâce à un protocole dont nous parlerons par la suite, nous sommes capable de déterminer quel est la réponse du canal sur le signal à cette fréquence précise, c'est à dire, le coefficient d'atténuation du signal à cette fréquence. Si, d'une sous-porteuse à la suivante, nous estimons être assez proche fréquentiellement pour estimer le canal comme plat dans la bande associée à une sous-porteuse, alors nous pouvons dire que le coefficient d'atténuation trouvé à la fréquence de la sous-porteuse est la même dans sa bande. C'est ce que l'on appelle être dans une zone de cohérence du canal.
+Premièrement, plaçons nous au niveau d'une sous-porteuse. Grâce à un protocole
+que nous expliquerons plus loin, nous sommes capable à cette fréquence de
+déterminer la réponse du canal, c'est-à-dire le coefficient d'atténuation du
+signal sur cette fréquence.
+% A la fréquence de la sous-porteuse, grâce à un protocole dont nous parlerons par
+% la suite, nous sommes capable de déterminer quel est la réponse du canal sur le
+% signal à cette fréquence précise, c'est à dire, le coefficient d'atténuation du
+% signal à cette fréquence.
+Si, d'une sous-porteuse à la suivante, nous estimons être assez proche
+fréquentiellement pour estimer le canal comme plat dans la bande associée à une
+sous-porteuse, alors nous pouvons dire que le coefficient d'atténuation trouvé à
+la fréquence de la sous-porteuse est la même dans sa bande. C'est ce que l'on
+appelle être dans une zone de cohérence du canal.
 \paragraph{}
-Maintenant, plaçons nous à l'échelle global du signal. Nous avons plusieurs sous-porteuses à des fréquences assez proches pour dire que la bande associée à une porteuse est dans une zone à peu près cohérente du canal, c'est à dire que par exemple, nous n'avons pas d'évanouhissement soudaint dans cette bande. De par le paragraphe précédent, nous sommes donc capable d'évaluer le coefficient d'atténuation pour chaque bande dédiée à une sous-porteuse. Nous pouvons donc estimer, par morceaux, la réponse fréquentielle du canal de propagation sur la bande passante totale du signal  
-\paragraph{}	
-	Sur la Figure ~\ref{EstimPort}, on peut comprendre comment est découpée l'estimation de la réponse fréquentielle du canal autour de chaque sous-porteuses.
+Maintenant, plaçons nous à l'échelle global du signal. Nous avons plusieurs
+sous-porteuses à des fréquences assez proches pour dire que la bande associée à
+une porteuse est dans une zone à peu près cohérente du canal, c'est à dire que
+par exemple, nous n'avons pas d'évanouissement soudain dans cette bande. De par
+le paragraphe précédent, nous sommes donc capable d'évaluer le coefficient
+d'atténuation pour chaque bande dédiée à une sous-porteuse. Nous pouvons donc
+estimer, par morceaux, la réponse fréquentielle du canal de propagation sur la
+bande passante totale du signal
+\paragraph{}
+Sur la Figure ~\ref{EstimPort}, on peut comprendre comment est découpée
+l'estimation de la réponse fréquentielle du canal autour de chaque
+sous-porteuses.
 
 \paragraph{}
 \vspace{1\baselineskip}
@@ -30,32 +56,32 @@ Maintenant, plaçons nous à l'échelle global du signal. Nous avons plusieurs s
   \centering
   \includegraphics[width=\textwidth]{EstimCanal.png}
   \caption{Estimation du canal autour des sous-porteuses }
-	\label{EstimPort} 
+	\label{EstimPort}
 \end{figure}
 
 \paragraph{}
-Connaissant la réponse fréquentielle du canal, nous sommes capable d'inverser l'effet du canal après réception du signal OFDM. Le partie suivante s'interessera à savoir comment on éstime en pratique les coefficients d'atténuations du canal de propagation, pour ensuite décrire comment on les utilise pour inverser l'effet du canal sur le signal.
+Connaissant la réponse fréquentielle du canal, nous sommes capable d'inverser l'effet du canal après réception du signal OFDM. Le partie suivante s'intéressera à savoir comment on estime en pratique les coefficients d'atténuations du canal de propagation, pour ensuite décrire comment on les utilise pour inverser l'effet du canal sur le signal.
 
 
 \section{Estimation pratique des coefficients d'atténuations du canal}
 
 \paragraph{}
-Le premier but de l'égalisation est d'estimer les coefficients complexes du canal de propagation autour des fréquences des sous-porteuses. Mais la réponse du canal de propagation varie au court du temps, par exemple, dans un milieu urbain, nous pouvons avoir des voitures qui avancent, et donc réfléchissent et diffractent le signal différement au cours du temps. Nous allons donc décrire le protocole d'éstimation de la réponse fréquentielle du canal de propagation au cours du temps.
+Le premier but de l'égalisation est d'estimer les coefficients complexes du canal de propagation autour des fréquences des sous-porteuses. Mais la réponse du canal de propagation varie au court du temps, par exemple, dans un milieu urbain, nous pouvons avoir des voitures qui avancent, et donc réfléchissent et diffractent le signal différemment au cours du temps. Nous allons donc décrire le protocole d'estimation de la réponse fréquentielle du canal de propagation au cours du temps.
 \paragraph{}
 Ensuite, il faut compenser l'effet du canal par calcul pour réaliser l'égalisation. Cela est fait en prenant en compte les coefficients complexes de la réponse fréquentielle du canal de propagation.
 
 \subsection{Estimation des coefficients complexes}
 \paragraph{}
-A l'émission, nous allons insérer des valeurs constantes dédiées à l'estimation de la réponse fréquentielle du canal. Celles-ci sont insérer avant l'IFFT, et seront codées par une constellation connues, comme le chiffre 4 réprésenté par l'état 1+j par exemple. Ces valeurs, donc états, doivent être présente sur toutes les porteuses afin d'évaluer la réponse sur tout les canaux, même si ce n'est pas au même moment, et on doit répéter plusieurs fois le pilote sur chaque canal afin d'éstimer aussi la variation dans le temps de la réponse fréquentiel du canal de propagation.
+A l'émission, nous allons insérer des valeurs constantes dédiées à l'estimation de la réponse fréquentielle du canal. Celles-ci sont insérer avant l'IFFT, et seront codées par une constellation connues, comme le chiffre 4 représente par l'état 1+j par exemple. Ces valeurs, donc états, doivent être présente sur toutes les porteuses afin d'évaluer la réponse sur tout les canaux, même si ce n'est pas au même moment, et on doit répéter plusieurs fois le pilote sur chaque canal afin d'estimer aussi la variation dans le temps de la réponse fréquentiel du canal de propagation.
 
 \paragraph{}
-A la réception, on connait l'état (la constellation) du pilote. On va recevoir, avec le pilote envoyé sur la sous-porteuse n : $y_{rn}=\alpha_n.x_n+B$, avec $y_{rn}$ le signal reçu, $\alpha_n$ le coefficient complexe la fonction de transfert du canal à la fréquence de la sous-porteuse n, et donc, par zone de cohérence, le coefficient pour la bande servant à envoyer l'état de la donnée associée à la fréquence. $x_n$ l'état connu du pilote à l'émission. $B$ représente le bruit dans le canal de propagation. Si $\alpha_n.x_n$ est assez grand pour que le produit $\alpha_n.x_n$ domine le bruit, on peut estimer le coefficient complexe $\alpha_n$ par le simple calcul : $\alpha_n=y_n/x_n$. Mais comment utiliser ce coefficient pour égaliser le signal ? 
+A la réception, on connaît l'état (la constellation) du pilote. On va recevoir, avec le pilote envoyé sur la sous-porteuse n : $y_{rn}=\alpha_n.x_n+B$, avec $y_{rn}$ le signal reçu, $\alpha_n$ le coefficient complexe la fonction de transfert du canal à la fréquence de la sous-porteuse n, et donc, par zone de cohérence, le coefficient pour la bande servant à envoyer l'état de la donnée associée à la fréquence. $x_n$ l'état connu du pilote à l'émission. $B$ représente le bruit dans le canal de propagation. Si $\alpha_n.x_n$ est assez grand pour que le produit $\alpha_n.x_n$ domine le bruit, on peut estimer le coefficient complexe $\alpha_n$ par le simple calcul : $\alpha_n=y_n/x_n$. Mais comment utiliser ce coefficient pour égaliser le signal ?
 
 \subsection{Utilisation des coefficients complexes}
 \paragraph{}
-Une fois les coefficients $\alpha_n$, nous sommes capables de compenser l'effet du canal sur le signal pour au final, avoir l'impression que la réponse fréquentielle du canal était plate sur la bande de fréquence totale du signal OFDM. Mais cela se fait au détriement d'une amplification du bruit.
+Une fois les coefficients $\alpha_n$, nous sommes capables de compenser l'effet du canal sur le signal pour au final, avoir l'impression que la réponse fréquentielle du canal était plate sur la bande de fréquence totale du signal OFDM. Mais cela se fait au détriment d'une amplification du bruit.
 \paragraph{}
-Pour faire simple, à la réception, après démultiplexage, et calcul de la FFT sur chaque fréquence de sous-porteuses (canaux), on divise le résulat par le coefficient complexe avant de décoder nos états de constellation. Ce procédé est illustré par la Figure ~\ref{UtilCoeff}. 
+Pour faire simple, à la réception, après démultiplexage, et calcul de la FFT sur chaque fréquence de sous-porteuses (canaux), on divise le résultat par le coefficient complexe avant de décoder nos états de constellation. Ce procédé est illustré par la Figure ~\ref{UtilCoeff}.
 
 \paragraph{}
 \vspace{1\baselineskip}
@@ -63,12 +89,12 @@ Pour faire simple, à la réception, après démultiplexage, et calcul de la FFT
   \centering
   \includegraphics[width=\textwidth]{CoeffEgali.png}
   \caption{Utilisation du coefficient complexe $\alpha_n$ pour l'égalisation dans la chaine de réception }
-	\label{UtilCoeff} 
+	\label{UtilCoeff}
 \end{figure}
 \vspace{2\baselineskip}
 
 \paragraph{}
-Pour conclure cette partie, résumons les étapes à suivre. Afin d'estimer la réponse fréquentielle du canal de propagation au cours du temps, nous envoyons sur toutes les sous-porteuses, des signaux pilotes dont le codage sur un état de constellation est connu. Nous répétons ce protocole plusieurs fois au cours du temps afin de prendre en compte que la réponse du canal change au cours du temps. Une fois l'éstimation des coefficients effectuée à la réception, nous inversons l'effet du canal de propagation sur le signal afin d'avoir le signal comme si la réponse fréquentielle du canal était plate sur toute la bande de fréquence du signal OFDM. Cela est le principe de l'égalisation.
+Pour conclure cette partie, résumons les étapes à suivre. Afin d'estimer la réponse fréquentielle du canal de propagation au cours du temps, nous envoyons sur toutes les sous-porteuses, des signaux pilotes dont le codage sur un état de constellation est connu. Nous répétons ce protocole plusieurs fois au cours du temps afin de prendre en compte que la réponse du canal change au cours du temps. Une fois l'estimation des coefficients effectuée à la réception, nous inversons l'effet du canal de propagation sur le signal afin d'avoir le signal comme si la réponse fréquentielle du canal était plate sur toute la bande de fréquence du signal OFDM. Cela est le principe de l'égalisation.
 
 %%% Local Variables:
 %%% mode: latex
