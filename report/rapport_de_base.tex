@@ -187,6 +187,14 @@ Comme nous pouvons le voir, les signaux OFDM résultent d’une modulation multi
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
+\paragraph{}
+Pour conclure, revenons sur le travail éffectué. Nous avons tout d'abord fait de nombreuses recherches bibliographique sur l'OFDM, afin d'en comprendre les principes. L'utilisation du préfixe cyclique dans les signaux OFDM permet d'éviter l'ISI et l'ICI, ce qui facilite l'estimation du canal de propagation lors de la réception. Mais le préfixe cyclique peut occuper jusqu'à 20\% du débit, auquel on ajoute encore une occupation de débit pour les pilotes permettant d'estimer le canal. Après avoir bien apréhender les spécificités de l'OFDM, nous nous sommes intéressés à l'extraction du préfixe cyclique afin de monter en débit. Sans ce préfixe, nous avons de l'ICI qui apparait, ce qui complique fortement l'étape d'égalisation. En comprenant le rapport scientifique \cite{sujet} en annexe à la page \pageref{annexe}, nous avons tout d'abord mis en évidence, grâce à Matlab, la réussite des structures d'égalisation DFVE (temporelle et fréquentielle) en éstimant connaître le canal de propagration. Mais en réalité, la réponse fréquentielle du canal change, et nous ne le connaissons pas. Nous avons donc ajouté des pilotes à notre signal à l'émission, afin d'éstimer le canal à la réception. Grâce à l'algorithme LMS, nous avons réussi à faire converger l'éstimation du canal vers la bonne réponse fréquentielle. 
+
+
+
+
+
+
 \newpage
 
 %%%% ANNEXE %%%%%%%%%%%%
