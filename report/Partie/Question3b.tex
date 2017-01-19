@@ -1,12 +1,24 @@
-\chapter{Tests des structures d'égalisation DFVE}
+\chapter{Tests0 des structures d'égalisation DFVE}
 
 \paragraph{}
-Nous devions vérifier expérimentalement deux structures d'égalisation DFVE (temporelle et fréquentielle). Dans ce chapitre, nous aurons connaissance du canal de propagation à la réception, sans l'utilisation des pilotes. Nous avons donc crée un signal OFDM, modélisé l'effet du canal de propagation, et ensuite nous avons testé les deux structures d'égalisation DFVE en connaissant la réponse du canal, et donc sans algorithme d'éstimation des coefficients complexes (Chapitre suivant). Les codes MATLAB commentés sont disponible avec ce rapport.
+Nous devons vérifier expérimentalement deux structures d'égalisation DFVE
+(temporelle et fréquentielle). Dans ce chapitre, nous aurons connaissance du
+canal de propagation à la réception, sans l'utilisation des pilotes. Nous avons
+donc crée un signal OFDM, et modélisé l'effet du canal de propagation. Ensuite,
+nous avons testé les deux structures d'égalisation DFVE en connaissant la
+réponse du canal, et donc sans algorithme d'estimation des coefficients
+complexes (Chapitre suivant). Les codes MATLAB commentés sont disponibles avec ce
+rapport.
 
 \section{Création du signal}
 
 \paragraph{}
-Nous avons choisi de prendre 4 sous-porteuses avec la première à 2.412 GHz, et les suivantes espacée de 0.3125MHz afin du simulé 4 sous-porteuses du canal 1 du WIFI en France. Nous avons choisi comme modulation, une $\pi/4$-DPSK dont un état représente le chiffre 1, un autre le 2, puis le 3 et le 4. Ensuite nous créeons aléatoirement un vecteur de ces 4 chiffres, et le modulons. Nous pouvons voir le diagramme de constellation sur la Figure ~\ref{QPSK}.
+Nous avons choisi de prendre 4 sous-porteuses avec la première à 2.412 GHz, et
+les suivantes espacée de 0.3125MHz afin du simuler 4 sous-porteuses du canal 1
+du WIFI en France. Nous avons choisi comme modulation, une $\pi/4$-DPSK dont les
+états représentent les chiffres 1, 2, 3 et 4. Nous créerons aléatoirement
+un vecteur de ces 4 chiffres, et le modulerons. Nous pouvons voir le diagramme de
+constellation sur la Figure ~\ref{QPSK}.
 
 \paragraph{}
 \vspace{1\baselineskip}
@@ -14,12 +26,12 @@ Nous avons choisi de prendre 4 sous-porteuses avec la première à 2.412 GHz, et
   \centering
   \includegraphics[scale=0.6]{QPSKdep.png}
   \caption{Diagramme de constellation avant l'IFFT }
-	\label{QPSK} 
+	\label{QPSK}
 \end{figure}
 \vspace{10\baselineskip}
 
 \paragraph{}
-Ensuite, nous créeons notre signal après en avoir effectué l'IFFT. Nous obtenons le signal visible sur la Figure ~\ref{signal}.
+Ensuite, nous créerons notre signal après en avoir effectué l'IFFT. Nous obtenons le signal visible sur la Figure ~\ref{signal}.
 
 \paragraph{}
 \vspace{1\baselineskip}
@@ -27,7 +39,7 @@ Ensuite, nous créeons notre signal après en avoir effectué l'IFFT. Nous obten
   \centering
   \includegraphics[scale=0.6]{signalSR.png}
   \caption{Signal à la sortie du récepteur }
-	\label{signal} 
+	\label{signal}
 \end{figure}
 \vspace{1\baselineskip}
 
@@ -40,18 +52,21 @@ Nous avons modélisé la réponse fréquentielle du canal par le filtre d'un can
   \centering
   \includegraphics[scale=0.8]{fonctionT.png}
   \caption{Réponse fréquentielle du canal sur la bande du signal OFDM}
-	\label{fonctionT} 
+	\label{fonctionT}
 \end{figure}
 \vspace{1\baselineskip}
 \paragraph{}
-Ensuite nous convoluons notre signal temporelle par la réponse fréquentielle du canal, puis nous ajoutons un bruit Gaussien complexe de variance 0.01. Notre signal est ainsi transformé comme nous pouvons le voir sur la Figure ~\ref{ajoutCanal} 
+Ensuite nous ajoutons notre signal temporelle à la réponse fréquentielle du
+canal par convolution. Puis, nous ajoutons un bruit Gaussien complexe de variance
+0.01. Notre signal est ainsi transformé comme nous pouvons le voir sur la Figure
+~\ref{ajoutCanal}
 \paragraph{}
 \vspace{1\baselineskip}
 \begin{figure}[!h]
   \centering
   \includegraphics[scale=0.8]{ajoutCanal.png}
   \caption{Signal à l'entrée du récepteur sans bruit et avec bruit}
-	\label{ajoutCanal} 
+	\label{ajoutCanal}
 \end{figure}
 \vspace{1\baselineskip}
 
@@ -59,7 +74,11 @@ Ensuite nous convoluons notre signal temporelle par la réponse fréquentielle d
 \section{Structure fréquentielle DFVE}
 
 \paragraph{}
-Pour l'égalisation, nous avons un traitement Post-réception afin de compenser les effets du canal de propagation. Ici, nous avons connaissance de nos coefficients des matrices $H0$ et $H1$ \cite{sujet}, nous n'appliquons donc pas l'algorithme LMS. Grâce aux deux matrices précédentes, nous avons calculé les matrices $P0$ et $P1$ de la Figure ~\ref{dfveF}.
+Pour l'égalisation, nous avons un traitement post-réception afin de compenser
+les effets du canal de propagation. Ici, nous avons connaissance de nos
+coefficients des matrices $H_0$ et $H_1$ \cite{sujet}, nous n'appliquons donc pas
+l'algorithme LMS. Grâce aux deux matrices précédentes, nous avons calculé les
+matrices $P_0$ et $P_1$ de la Figure ~\ref{dfveF}.
 
 \paragraph{}
 \vspace{1\baselineskip}
@@ -67,13 +86,18 @@ Pour l'égalisation, nous avons un traitement Post-réception afin de compenser 
   \centering
   \includegraphics[scale=1]{dfveF.png}
   \caption{Chaîne de réception de la structure fréquentielle DFVE}
-	\label{dfveF} 
+	\label{dfveF}
 \end{figure}
 \vspace{1\baselineskip}
 \section{Structure temporelle DFVE}
 
 \paragraph{}
-Après notre traitement, on peut voir sur la Figure ~\ref{resultDFVEF}, que les états du signal à la réception après égalisation correspondent bien aux constellations du signal de départ. De plus, après démodulation de ces états, nous avons comparé nos résultats au signal de départ. Pour un faible bruit blanc Gaussien complexe (variance de 0.01) dans le canal de propagation, nous avons une erreur de 0\%. Pour un bruit de variance 0.05 ,nous avons 5\% d'erreurs.
+Après notre traitement, on peut voir sur la Figure ~\ref{resultDFVEF}, que les
+états du signal à la réception après égalisation correspondent bien aux
+constellations du signal de départ. De plus, après démodulation de ces états,
+nous avons comparé nos résultats au signal de départ. Pour un faible bruit blanc
+Gaussien complexe (variance de 0.01) dans le canal de propagation, nous avons
+une erreur de 0\%. Pour un bruit de variance 0.05, nous avons 5\% d'erreurs.
 
 \paragraph{}
 \vspace{1\baselineskip}
@@ -81,25 +105,33 @@ Après notre traitement, on peut voir sur la Figure ~\ref{resultDFVEF}, que les 
   \centering
   \includegraphics[scale=0.8]{resultDFVEF.png}
   \caption{Diagramme de constellation après égalisation à la réception}
-	\label{resultDFVEF} 
+	\label{resultDFVEF}
 \end{figure}
 \vspace{1\baselineskip}
 
 \section{Structure temporelle DFVE}
 \paragraph{}
-Avec la structure d'égalisation temporelle DFVE ~\ref{dfveT}, nous avons exactement les mêmes résultats. Ce qui montre qu'en connaissant exactement la réponse fréquentielle du canal, les deux structures sont équivalentes. Dans cette situation, l'avantage de la structure temporelle DFVE est que les matrices $Q0$ et $Q1$ sont triangulaires, ce qui réduit la complexité calculatoire de deux.
+Avec la structure d'égalisation temporelle DFVE ~\ref{dfveT}, nous avons
+exactement les mêmes résultats. Ce qui montre qu'en connaissant exactement la
+réponse fréquentielle du canal, les deux structures sont équivalentes. Dans
+cette situation, l'avantage de la structure temporelle DFVE est que les matrices
+$Q_0$ et $Q_1$ sont triangulaires, ce qui divise par deux la complexité calculatoire.
 \paragraph{}
 \vspace{1\baselineskip}
 \begin{figure}[!h]
   \centering
   \includegraphics[scale=1]{dfveT.png}
   \caption{Chaîne de réception de la structure temporelle DFVE}
-	\label{dfveT} 
+	\label{dfveT}
 \end{figure}
 \vspace{2\baselineskip}
 
 \paragraph{}
-Rappelons, avant de passé à la partie suivante, que nos deux structures sont équivalentes en résultats car nous avons supposé connaître la réponse fréquentielle du canal. Mais cela n'est pas vraie en pratique. Le but de la partie suivante sera de tester une méthode d'éstimation des coefficients complexes des matrices intervenant dans l'égalisation DFVE.
+Rappelons, avant de passer à la partie suivante, que nos deux structures sont
+équivalentes en résultat car nous avons supposé connaître la réponse
+fréquentielle du canal. Mais cela n'est pas vraie en pratique. Le but de la
+partie suivante sera de tester une méthode d'estimation des coefficients
+complexes des matrices intervenant dans l'égalisation DFVE.
 
 %%% Local Variables:
 %%% mode: latex
